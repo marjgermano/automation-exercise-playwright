@@ -12,11 +12,11 @@ The 26 test cases have been categorized into functional modules to ensure a modu
 
 | Module | Test Case IDs | Focus Area |
 | :--- | :--- | :--- |
-| **Authentication & Account** | TC 1, 2, 3, 4, 5 | Registration, Login/Logout, and Security flows. |
+| **Authentication & Account** | TC 1, 2, 3, 4, 5 | Registration, Login/Logout, Delete Account, and Security flows. |
 | **Product Catalog** | TC 8, 9, 18, 19, 21 | Browsing, Search, Category/Brand filters, and Product Reviews. |
 | **Cart & Subscription** | TC 10, 11, 12, 13, 17, 22 | Cart persistence, quantity updates, and Newsletter signups. |
 | **Checkout & Order** | TC 14, 15, 16, 20, 23, 24 | End-to-end purchase flow, Payment Gateway, and Invoices. |
-| **UI & Navigation** | TC 6, 7, 25, 26 | Contact forms, scrolling functionality, and static page verification. |
+| **UI & Navigation** | TC 6, 7, 25, 26 | Contact forms, Scrolling functionality, and Static page verification. |
 
 ## 4. Automation Feasibility
 * **Locators:** The site utilizes stable IDs and `data-qa` attributes, which significantly reduces the risk of flaky tests.
