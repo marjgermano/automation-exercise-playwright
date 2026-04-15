@@ -12,9 +12,9 @@ This repository contains a robust end-to-end (E2E) automation framework designed
 ## 📂 QA Documentation
 I developed a full suite of test deliverables to ensure structured, professional-grade testing:
 
-* **[Test Analysis](./TEST_ANALYSIS.md):** Detailed breakdown of requirements and logical grouping of test cases.
-* **[Requirement Traceability Matrix (RTM)](./RTM.md):** A mapping document ensuring 100% coverage of the 26 targeted test cases.
-* **[Test Plan](./TEST_PLAN.md):** The strategic roadmap defining tools, scope, and exit criteria.
+* **[Test Analysis](./docs/Test_Analysis.md):** Detailed breakdown of requirements and logical grouping of test cases.
+* **[Requirement Traceability Matrix (RTM)](./docs/RTM.md):** A mapping document ensuring 100% coverage of the 26 targeted test cases.
+* **[Test Plan](./docs/Test_Plan.md):** The strategic roadmap defining tools, scope, and exit criteria.
 
 ---
 
