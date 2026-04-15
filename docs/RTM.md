@@ -5,7 +5,7 @@
 
 ---
 
-### 🟢 Status:
+### Status:
 - ⚪ **Pending**: Not yet started.
 - 🟢 **Completed**: Scripted, verified, and passing in CI/CD.
 

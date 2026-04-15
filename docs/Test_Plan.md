@@ -19,7 +19,7 @@ This plan defines the strategy for the **Automation Exercise** regression suite.
 ### 3.2 Out-of-Scope
 * Performance/Load testing.
 * App security checks.
-* Visual/Pixel-perfect UI comparisons.
+* Visual checks for UI design and consistency.
 
 ## 4. Automation Strategy
 * **Framework:** Playwright (TypeScript).
