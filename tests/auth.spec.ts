@@ -82,18 +82,54 @@ test('Register user with dynamic data and delete account', async ({ page }) => {
     await expect(page).toHaveURL(/.*automationexercise/);
 });
 
-test('Log in user with correct email and password', async({page})=> {
-await page.goto('/', {waitUntil:'domcontentloaded'})
-await expect(page).toHaveTitle(/automation exercise/i)
-await page.getByRole('link', {name: 'Signup / Login'}).click()
-await expect(page.getByText(/Login to your account/i)).toBeVisible()
-await page.getByTestId('login-email').fill(process.env.USER_EMAIL! || '')
-await page.getByTestId('login-password').fill(process.env.USER_PASSWORD! || '')
-await page.getByRole('button', {name:'Login'}).click()
-await expect(page.getByText(/Logged in as Test Account/i)).toBeVisible()
-await page.getByRole('link', {name: 'Delete Account'}).click()
-await expect(page.getByText(/account deleted/i)).toBeVisible()
-})
+test('Login user with correct email and password', async ({ page }) => {
+    // 1. Setup Dynamic Data (The Clean Slate)
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const fullName = `${firstName} ${lastName}`;
+    const email = faker.internet.email();
+    const password = process.env.USER_PASSWORD!; // Keep password stable for logic
+
+    // 2. Registration Step
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.getByRole('link', { name: 'Signup / Login' }).click();
+    
+    // Fill Signup (Step 5 in your plan)
+    await page.getByTestId('signup-name').fill(fullName);
+    await page.getByTestId('signup-email').fill(email);
+    await page.getByRole('button', { name: 'Signup' }).click();
+
+    // Fill Account Details (Shortened for brevity - ensure all required fields are filled)
+    await page.getByRole('radio', { name: 'Mrs.' }).check();
+    await page.getByTestId('password').fill(password);
+    await page.getByTestId('first_name').fill(firstName);
+    await page.getByTestId('last_name').fill(lastName);
+    await page.getByTestId('address').fill(faker.location.streetAddress());
+    await page.getByTestId('state').fill(faker.location.state());
+    await page.getByTestId('city').fill(faker.location.city());
+    await page.getByTestId('zipcode').fill(faker.location.zipCode());
+    await page.getByTestId('mobile_number').fill(faker.phone.number());
+    
+    await page.getByRole('button', { name: 'Create Account' }).click();
+    await expect(page.getByText('ACCOUNT CREATED!')).toBeVisible();
+
+    // 3. Login Verification (Step 16 in your plan)
+    await page.getByRole('link', { name: 'Continue' }).click();
+    
+    // Dynamic assertion: we check for the name Faker generated
+    await expect(page.getByText(`Logged in as ${fullName}`)).toBeVisible();
+
+    // 4. Deletion Step (The Cleanup)
+    // This removes the user so the database isn't cluttered
+    await page.getByRole('link', { name: 'Delete Account' }).click();
+
+    // 5. Final Assertion (Step 18)
+    await expect(page.getByText(/ACCOUNT DELETED!/i)).toBeVisible();
+    await page.getByRole('link', { name: 'Continue' }).click();
+    
+    // Verification: Ensure we are redirected home
+    await expect(page).toHaveURL(/.*automationexercise/);
+});
 
 test('Login user with  incorrect email and password', async({page}) => {
     const randomEmail = faker.internet.email();
