@@ -94,3 +94,18 @@ await expect(page.getByText(/Logged in as Test Account/i)).toBeVisible()
 await page.getByRole('link', {name: 'Delete Account'}).click()
 await expect(page.getByText(/account deleted/i)).toBeVisible()
 })
+
+test('Login user with  incorrect email and password', async({page}) => {
+    const randomEmail = faker.internet.email();
+    const password = faker.internet.password()
+
+    await page.goto('/', {waitUntil:'domcontentloaded'})
+    await expect(page).toHaveTitle('Automation Exercise')
+    await page.getByRole('link', {name: 'Signup / Login'}).click()
+    await expect(page.getByRole('heading', {name:'Login to your account'})).toBeVisible()
+await page.getByTestId('login-email').fill(randomEmail)
+await page.getByTestId('login-password').fill(password)
+await page.getByRole('button', {name:'login'}).click()
+await expect(page.getByText(/your email or password is incorrect/i)).toBeVisible()
+}
+)
