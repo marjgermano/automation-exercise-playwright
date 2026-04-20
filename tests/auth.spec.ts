@@ -81,3 +81,16 @@ test('Register user with dynamic data and delete account', async ({ page }) => {
     await page.getByRole('link', { name: 'Continue' }).click();
     await expect(page).toHaveURL(/.*automationexercise/);
 });
+
+test('Log in user with correct email and password', async({page})=> {
+await page.goto('/', {waitUntil:'domcontentloaded'})
+await expect(page).toHaveTitle(/automation exercise/i)
+await page.getByRole('link', {name: 'Signup / Login'}).click()
+await expect(page.getByText(/Login to your account/i)).toBeVisible()
+await page.getByTestId('login-email').fill(process.env.USER_EMAIL! || '')
+await page.getByTestId('login-password').fill(process.env.USER_PASSWORD! || '')
+await page.getByRole('button', {name:'Login'}).click()
+await expect(page.getByText(/Logged in as Test Account/i)).toBeVisible()
+await page.getByRole('link', {name: 'Delete Account'}).click()
+await expect(page.getByText(/account deleted/i)).toBeVisible()
+})
