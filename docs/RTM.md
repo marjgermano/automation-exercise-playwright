@@ -13,10 +13,10 @@
 
 | Module | TC ID | Test Case Description | Status | Playwright Script Path |
 | :--- | :--- | :--- | :--- | :--- |
-| **Auth & Account** | TC-1 | Register User | ⚪ Pending | `tests/auth.spec.ts` |
-| | TC-2 | Login User with correct email and password | ⚪ Pending | `tests/auth.spec.ts` |
-| | TC-3 | Login User with incorrect email and password | ⚪ Pending | `tests/auth.spec.ts` |
-| | TC-4 | Logout User | ⚪ Pending | `tests/auth.spec.ts` |
+| **Auth & Account** | TC-1 | Register User | 🟢 Completed | `tests/auth.spec.ts` |
+| | TC-2 | Login User with correct email and password | 🟢 Completed | `tests/auth.spec.ts` |
+| | TC-3 | Login User with incorrect email and password | 🟢 Completed | `tests/auth.spec.ts` |
+| | TC-4 | Logout User | 🟢 Completed | `tests/auth.spec.ts` |
 | | TC-5 | Register User with existing email | ⚪ Pending | `tests/auth.spec.ts` |
 | **UI & Navigation** | TC-6 | Contact Us Form | ⚪ Pending | `tests/contact.spec.ts` |
 | | TC-7 | Verify Test Cases page | ⚪ Pending | `tests/navigation.spec.ts` |
