@@ -25,6 +25,7 @@ test.describe("User Authentication (TC 1-5)", () => {
     registerUser = new RegisterUser(page);
     loginUser = new LoginUser(page);
     await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page).toHaveTitle('Automation Exercise')
   });
 
   test("TC1: Register User", async ({ page }) => {
@@ -68,4 +69,13 @@ test.describe("User Authentication (TC 1-5)", () => {
     await page.getByRole("link", { name: "Logout" }).click();
     await expect(page).toHaveURL(/.*login/);
   });
+
+  test('Register User with existing email', async({page}) => {
+    const user = createUserData()
+    
+  })
+  
 });
+
+
+
