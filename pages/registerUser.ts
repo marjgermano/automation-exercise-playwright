@@ -1,5 +1,18 @@
 import { Page } from "@playwright/test";
 
+interface RegisterUserData {
+  fullName: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  state: string;
+  city: string;
+  zip: string;
+  phone: string;
+}
+
 export class RegisterUser {
   constructor(private page: Page) {}
 
@@ -39,17 +52,16 @@ export class RegisterUser {
   get createAccBtn() {
     return this.page.getByRole("button", { name: "Create Account" });
   }
-
- 
   get continueBtn() {
     return this.page.getByRole("link", { name: "Continue" });
   }
 
-  async fullRegistration(data: any) {
+  async fullRegistration(data: RegisterUserData) {
     await this.signupName.fill(data.fullName);
     await this.signupEmail.fill(data.email);
     await this.signupBtn.click();
 
+    // Form Details
     await this.page.getByRole("radio", { name: "Mrs." }).check();
     await this.passwordInput.fill(data.password);
     await this.firstNameInput.fill(data.firstName);
