@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 
-interface RegisterUserData {
+export interface RegisterUserData {
+  title: "Mr." | "Mrs.";
   fullName: string;
   email: string;
   password: string;
@@ -16,6 +17,7 @@ interface RegisterUserData {
 export class RegisterUser {
   constructor(private page: Page) {}
 
+  // Locators
   get signupName() {
     return this.page.getByTestId("signup-name");
   }
@@ -55,14 +57,18 @@ export class RegisterUser {
   get continueBtn() {
     return this.page.getByRole("link", { name: "Continue" });
   }
+  get errorMessage() {
+    return this.page.getByText("Email Address already exist!");
+  }
 
-  async fullRegistration(data: RegisterUserData) {
-    await this.signupName.fill(data.fullName);
-    await this.signupEmail.fill(data.email);
+  async enterSignupDetails(name: string, email: string) {
+    await this.signupName.fill(name);
+    await this.signupEmail.fill(email);
     await this.signupBtn.click();
+  }
 
-    // Form Details
-    await this.page.getByRole("radio", { name: "Mrs." }).check();
+  async fillAccountInformation(data: RegisterUserData) {
+    await this.page.getByRole("radio", { name: data.title }).check();
     await this.passwordInput.fill(data.password);
     await this.firstNameInput.fill(data.firstName);
     await this.lastNameInput.fill(data.lastName);
@@ -72,5 +78,10 @@ export class RegisterUser {
     await this.zipInput.fill(data.zip);
     await this.mobileInput.fill(data.phone);
     await this.createAccBtn.click();
+  }
+
+  async fullRegistration(data: RegisterUserData) {
+    await this.enterSignupDetails(data.fullName, data.email);
+    await this.fillAccountInformation(data);
   }
 }
