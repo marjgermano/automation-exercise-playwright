@@ -3,7 +3,6 @@ import { RegisterUser, RegisterUserData } from "../pages/registerUser";
 import { LoginUser } from "../pages/loginUser";
 import { faker } from "@faker-js/faker";
 
-// Data Generator with Randomized Title
 const createUserData = (): RegisterUserData => ({
   title: faker.helpers.arrayElement(["Mr.", "Mrs."]),
   fullName: faker.person.fullName(),
@@ -32,12 +31,13 @@ test.describe("Automation Exercise: User Authentication (TC 1-5)", () => {
   test("TC1: Register User and Delete Account", async ({ page }) => {
     const data = createUserData();
     console.log(`TC1: Testing with ${data.title} - ${data.email}`);
-
+    // 1. Register user
     await page.getByRole("link", { name: "Signup / Login" }).click();
     await registerUser.fullRegistration(data);
     await expect(page.getByText(/account created/i)).toBeVisible();
 
     await registerUser.continueBtn.click();
+    // 2. Delete Account
     await page.getByRole("link", { name: "Delete Account" }).click();
     await expect(page.getByText(/account deleted/i)).toBeVisible();
   });
@@ -45,7 +45,7 @@ test.describe("Automation Exercise: User Authentication (TC 1-5)", () => {
   test("TC2: Login User with correct credentials", async ({ page }) => {
     const data = createUserData();
 
-    // 1. Setup: Create user
+    // 1. Register user
     await page.getByRole("link", { name: "Signup / Login" }).click();
     await registerUser.fullRegistration(data);
     await registerUser.continueBtn.click();
@@ -66,10 +66,11 @@ test.describe("Automation Exercise: User Authentication (TC 1-5)", () => {
 
   test("TC4: Logout User", async ({ page }) => {
     const data = createUserData();
+    // 1. Register user
     await page.getByRole("link", { name: "Signup / Login" }).click();
     await registerUser.fullRegistration(data);
     await registerUser.continueBtn.click();
-
+    // 2. Logout
     await page.getByRole("link", { name: "Logout" }).click();
     await expect(page).toHaveURL(/.*login/);
   });
