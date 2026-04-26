@@ -43,7 +43,7 @@ export class ContactUsPage {
       await this.fileUploadInput.setInputFiles(data.uploadFilePath);
     }
 
-    // 3. Handle the browser dialog
+    // 3. Handle the browser dialog (The 'OK' popup)
     this.page.once("dialog", (dialog) => dialog.accept());
 
     // 4. Click Submit
