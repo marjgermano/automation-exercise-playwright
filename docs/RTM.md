@@ -19,7 +19,7 @@
 |                         | TC-3  | Login User with incorrect email and password | 🟢 Completed | `tests/auth.spec.ts`         |
 |                         | TC-4  | Logout User                                  | 🟢 Completed | `tests/auth.spec.ts`         |
 |                         | TC-5  | Register User with existing email            | 🟢 Completed | `tests/auth.spec.ts`         |
-| **UI & Navigation**     | TC-6  | Contact Us Form                              | ⚪ Pending   | `tests/contact.spec.ts`      |
+| **UI & Navigation**     | TC-6  | Contact Us Form                              | 🟢 Completed | `tests/contact.spec.ts`      |
 |                         | TC-7  | Verify Test Cases page                       | ⚪ Pending   | `tests/navigation.spec.ts`   |
 | **Product Catalog**     | TC-8  | Verify All Products and detail page          | ⚪ Pending   | `tests/products.spec.ts`     |
 |                         | TC-9  | Search Product                               | ⚪ Pending   | `tests/products.spec.ts`     |
