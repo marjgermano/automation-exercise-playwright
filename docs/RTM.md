@@ -21,7 +21,7 @@
 |                         | TC-5  | Register User with existing email            | 🟢 Completed | `tests/auth.spec.ts`         |
 | **UI & Navigation**     | TC-6  | Contact Us Form                              | 🟢 Completed | `tests/contact.spec.ts`      |
 |                         | TC-7  | Verify Test Cases page                       | 🟢 Completed | `tests/navigation.spec.ts`   |
-| **Product Catalog**     | TC-8  | Verify All Products and detail page          | ⚪ Pending   | `tests/products.spec.ts`     |
+| **Product Catalog**     | TC-8  | Verify All Products and detail page          | 🟢 Completed   | `tests/products.spec.ts`     |
 |                         | TC-9  | Search Product                               | ⚪ Pending   | `tests/products.spec.ts`     |
 | **Cart & Subscription** | TC-10 | Verify Subscription in home page             | ⚪ Pending   | `tests/subscription.spec.ts` |
 |                         | TC-11 | Verify Subscription in Cart page             | ⚪ Pending   | `tests/subscription.spec.ts` |
