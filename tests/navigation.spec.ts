@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./baseTest";
 
 test("TC7: Verify Test Cases page", async ({ page }) => {
   await page.goto("/", { waitUntil: "load" });
