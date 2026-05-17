@@ -23,10 +23,10 @@
 |                         | TC-7  | Verify Test Cases page                       | 🟢 Completed | `tests/navigation.spec.ts`   |
 | **Product Catalog**     | TC-8  | Verify All Products and detail page          | 🟢 Completed | `tests/products.spec.ts`     |
 |                         | TC-9  | Search Product                               | 🟢 Completed | `tests/products.spec.ts`     |
-| **Cart & Subscription** | TC-10 | Verify Subscription in home page             | ⚪ Pending   | `tests/subscription.spec.ts` |
-|                         | TC-11 | Verify Subscription in Cart page             | ⚪ Pending   | `tests/subscription.spec.ts` |
-|                         | TC-12 | Add Products in Cart                         | ⚪ Pending   | `tests/cart.spec.ts`         |
-|                         | TC-13 | Verify Product quantity in Cart              | ⚪ Pending   | `tests/cart.spec.ts`         |
+| **Cart & Subscription** | TC-10 | Verify Subscription in home page             | 🟢 Completed | `tests/subscription.spec.ts` |
+|                         | TC-11 | Verify Subscription in Cart page             | 🟢 Completed | `tests/subscription.spec.ts` |
+|                         | TC-12 | Add Products in Cart                         | 🟢 Completed | `tests/cart.spec.ts`         |
+|                         | TC-13 | Verify Product quantity in Cart              | 🟢 Completed | `tests/cart.spec.ts`         |
 | **Checkout & Order**    | TC-14 | Place Order: Register while Checkout         | ⚪ Pending   | `tests/checkout.spec.ts`     |
 |                         | TC-15 | Place Order: Register before Checkout        | ⚪ Pending   | `tests/checkout.spec.ts`     |
 |                         | TC-16 | Place Order: Login before Checkout           | ⚪ Pending   | `tests/checkout.spec.ts`     |
