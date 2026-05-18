@@ -5,7 +5,7 @@ import { Cart } from "../pages/cartPage";
 
 test.describe("Cart & Subscription (TC 12-13)", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/", { waitUntil: "load" });
+    await page.goto("/", { waitUntil: "networkidle" });
     expect(page).toHaveTitle(/Automation Exercise/);
   });
 

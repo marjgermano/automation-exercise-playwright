@@ -32,6 +32,7 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     testIdAttribute: "data-qa",
+    video: "retry-with-video",
   },
 
   /* Configure projects for major browsers */
