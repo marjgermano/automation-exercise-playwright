@@ -7,6 +7,13 @@ export class Cart {
     return this.page.locator("#cart_info_table tbody tr");
   }
 
+  get proceedToCheckoutBtn() {
+    return this.page.locator('a:has-text("Proceed To Checkout")');
+  }
+  get registerLoginModalLink() {
+    return this.page.locator('u:has-text("Register / Login")');
+  }
+
   async verifyProductDetailsInCart(
     rowIndex: number,
     expectedPrice: string,
@@ -20,5 +27,13 @@ export class Cart {
       expectedQuantity,
     );
     await expect(row.locator(".cart_total_price")).toHaveText(expectedTotal);
+  }
+
+  async navigateTo() {
+    await this.page.goto("/view_cart");
+  }
+
+  async clickProceedToCheckout() {
+    await this.proceedToCheckoutBtn.click();
   }
 }
