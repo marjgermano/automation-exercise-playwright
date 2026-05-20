@@ -35,4 +35,15 @@ test.describe("Cart & Subscription (TC 12-13)", () => {
     await productsPage.viewCartLink.click();
     await cartPage.verifyProductDetailsInCart(0, "Rs. 500", "4", "Rs. 2000");
   });
+
+  test("TC17: Remove products from cart", async ({ page }) => {
+    const productsPage = new AllProducts(page);
+    const cartPage = new Cart(page);
+
+    await productsPage.addProductToCartByIndex(1);
+    await productsPage.viewCartLink.click();
+    await expect(cartPage.cartRows).toHaveCount(1);
+    await cartPage.deleteProductFromCart.click();
+    await expect(cartPage.cartRows).toHaveCount(0);
+  });
 });

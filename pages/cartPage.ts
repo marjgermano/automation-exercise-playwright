@@ -14,6 +14,10 @@ export class Cart {
     return this.page.locator('u:has-text("Register / Login")');
   }
 
+  get deleteProductFromCart() {
+    return this.page.locator(".cart_quantity_delete");
+  }
+
   async verifyProductDetailsInCart(
     rowIndex: number,
     expectedPrice: string,
