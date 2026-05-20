@@ -2,7 +2,7 @@ import { test, expect } from "./baseTest";
 import { AllProducts } from "../pages/allProducts";
 import { Cart } from "../pages/cartPage";
 import { RegisterUser } from "../pages/registerUser";
-import { CheckoutPage } from "../pages/checkOutPage";
+import { CheckoutPage } from "../pages/checkoutPage";
 import { PaymentPage } from "../pages/paymentPage";
 import { LoginUser } from "../pages/loginUser";
 import { createUserData } from "../utils/dataFactory";
