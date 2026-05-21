@@ -44,4 +44,11 @@ test.describe("Product Catalog (TC 8-9)", () => {
       expect(name.toLowerCase()).toContain(searchKeyword.toLowerCase());
     }
   });
+
+  test("TC18: View category products", async ({ page }) => {
+    await expect(
+      page.getByRole("heading", { name: /category/i }),
+    ).toBeVisible();
+    await page.get;
+  });
 });

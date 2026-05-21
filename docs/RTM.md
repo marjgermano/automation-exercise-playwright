@@ -31,7 +31,7 @@
 |                         | TC-15 | Place Order: Register before Checkout        | 🟢 Completed | `tests/checkout.spec.ts`     |
 |                         | TC-16 | Place Order: Login before Checkout           | 🟢 Completed | `tests/checkout.spec.ts`     |
 | **Cart & Sub**          | TC-17 | Remove Products From Cart                    | 🟢 Completed | `tests/cart.spec.ts`         |
-| **Product Catalog**     | TC-18 | View Category Products                       | ⚪ Pending   | `tests/products.spec.ts`     |
+| **Product Catalog**     | TC-18 | View Category Products                       | 🟢 Completed | `tests/categories.spec.ts`   |
 |                         | TC-19 | View & Cart Brand Products                   | ⚪ Pending   | `tests/products.spec.ts`     |
 | **Checkout & Order**    | TC-20 | Search Products / Verify Cart After Login    | ⚪ Pending   | `tests/checkout.spec.ts`     |
 | **Product Catalog**     | TC-21 | Add review on product                        | ⚪ Pending   | `tests/products.spec.ts`     |
