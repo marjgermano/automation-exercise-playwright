@@ -1,6 +1,7 @@
 import { test, expect } from "./baseTest";
 import { AllProducts } from "../pages/allProducts";
 import { ProductDetails } from "../pages/productDetails";
+import { SidebarComponent } from "../pages/components/SidebarComponent";
 
 test.describe("Product Catalog (TC 8-9)", () => {
   test.beforeEach(async ({ page }) => {
@@ -45,10 +46,33 @@ test.describe("Product Catalog (TC 8-9)", () => {
     }
   });
 
-  test("TC18: View category products", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { name: /category/i }),
-    ).toBeVisible();
-    await page.get;
+  test("TC18: View Category Products", async ({ page }) => {
+    const sidebar = new SidebarComponent(page);
+
+    // 3. Verify that categories are visible on left side bar
+    await expect(sidebar.categorySidebarTitle).toBeVisible();
+
+    // 4. Click on 'Women' category
+    await sidebar.expandCategory("Women");
+
+    // 5. Click on any category link under 'Women' category, for example: Tops
+    // (We use 'Tops' here to match the site's default header expectation in Step 6!)
+    await sidebar.selectSubCategory("Women", "Tops");
+
+    // 6. Verify that category page is displayed and confirm text 'WOMEN - TOPS PRODUCTS'
+    await expect(page).toHaveURL(/.*category_products.*/);
+    await expect(sidebar.categoryPageTitleHeader).toHaveText(
+      "Women - Tops Products",
+    );
+
+    // 7. On left side bar, click on any sub-category link of 'Men' category
+    await sidebar.expandCategory("Men");
+    await sidebar.selectSubCategory("Men", "TShirts");
+
+    // 8. Verify that user is navigated to that category page and header matches
+    await expect(page).toHaveURL(/.*category_products.*/);
+    await expect(sidebar.categoryPageTitleHeader).toHaveText(
+      "Men - Tshirts Products",
+    );
   });
 });
