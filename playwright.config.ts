@@ -11,6 +11,9 @@ dotenv.config({ path: path.resolve(__dirname, ".env") });
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+if (!process.env.CI) {
+  process.env.PLAYWRIGHT_BROWSERS_PATH = '0';
+}
 
 export default defineConfig({
   testDir: "./tests",
