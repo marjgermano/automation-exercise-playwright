@@ -75,4 +75,15 @@ test.describe("Product Catalog (TC 8-9)", () => {
       "Men - Tshirts Products",
     );
   });
+
+  test('TC19: View & cart brand products', async({page})=> {
+const productsPage = new AllProducts(page);
+const sidebar = new SidebarComponent(page)
+
+await productsPage.navigateTo()
+await expect(sidebar.brandSidebarTitle).toBeVisible()
+await sidebar.selectBrand('Polo')
+await expect(page).toHaveURL(/.*brand_products\/Polo.*/)
+await expect(sidebar.categoryPageTitleHeader).toHaveText('Brand - Polo Products');
+  })
 });
