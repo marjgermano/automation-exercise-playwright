@@ -77,13 +77,13 @@ test.describe("Product Catalog (TC 8-9)", () => {
   });
 
   test('TC19: View & cart brand products', async({page})=> {
-const productsPage = new AllProducts(page);
-const sidebar = new SidebarComponent(page)
+const sidebar = new SidebarComponent(page);
 
-await productsPage.navigateTo()
-await expect(sidebar.brandSidebarTitle).toBeVisible()
-await sidebar.selectBrand('Polo')
-await expect(page).toHaveURL(/.*brand_products\/Polo.*/)
-await expect(sidebar.categoryPageTitleHeader).toHaveText('Brand - Polo Products');
+    await page.getByRole('link', { name: ' Products' }).click({ timeout: 10000 });
+    await page.waitForURL(/.*products.*/, { timeout: 10000 });
+    await expect(sidebar.brandSidebarTitle).toBeVisible();
+    await sidebar.selectBrand('Polo');
+    await expect(page).toHaveURL(/.*brand_products\/Polo.*/);
+    await expect(sidebar.categoryPageTitleHeader).toHaveText('Brand - Polo Products');
   })
 });
