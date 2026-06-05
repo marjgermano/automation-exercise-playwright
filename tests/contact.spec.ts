@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./baseTest";
 import { ContactUsPage, ContactFormData } from "../pages/contactForm";
 import { faker } from "@faker-js/faker";
 import * as fs from "fs";
@@ -25,10 +25,5 @@ test("TC6: Contact Us Form", async ({ page }) => {
     page.getByRole("heading", { name: "GET IN TOUCH" }),
   ).toBeVisible();
   await contactUsPage.submitForm({ ...data, uploadFilePath: filePath });
-
-  //   await expect(page.locator(".status.alert.alert-success")).toHaveCount(1);
-
-  //   await page.locator("a.btn.btn-success").click();
-  //   await expect(page).toHaveURL("/");
   await expect(page).toHaveTitle(/Automation Exercise/);
 });

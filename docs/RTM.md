@@ -34,7 +34,7 @@
 | **Product Catalog**     | TC-18 | View Category Products                       | 🟢 Completed | `tests/categories.spec.ts`   |
 |                         | TC-19 | View & Cart Brand Products                   | 🟢 Completed | `tests/product.spec.ts`      |
 | **Checkout & Order**    | TC-20 | Search Products / Verify Cart After Login    | 🟢 Completed | `tests/cart.spec.ts`     |
-| **Product Catalog**     | TC-21 | Add review on product                        | ⚪ Pending   | `tests/product.spec.ts`      |
+| **Product Catalog**     | TC-21 | Add review on product                        | 🟢 Completed | `tests/product.spec.ts`      |
 | **Cart & Sub**          | TC-22 | Add to cart from Recommended items           | ⚪ Pending   | `tests/cart.spec.ts`         |
 | **Checkout & Order**    | TC-23 | Verify address details in checkout page      | ⚪ Pending   | `tests/checkout.spec.ts`     |
 |                         | TC-24 | Download Invoice after purchase order        | ⚪ Pending   | `tests/checkout.spec.ts`     |

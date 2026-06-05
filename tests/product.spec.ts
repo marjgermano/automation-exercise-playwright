@@ -2,10 +2,12 @@ import { test, expect } from "./baseTest";
 import { AllProducts } from "../pages/allProducts";
 import { ProductDetails } from "../pages/productDetails";
 import { SidebarComponent } from "../pages/components/SidebarComponent";
+import { createUserData } from "../utils/dataFactory";
+import { faker } from "@faker-js/faker";
 
 test.describe("Product Catalog (TC 8-9)", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/", { waitUntil: "load" });
+    await page.goto("/", { waitUntil: "networkidle" });
     await expect(page).toHaveTitle(/Automation Exercise/);
   });
 
@@ -85,5 +87,34 @@ const sidebar = new SidebarComponent(page);
     await sidebar.selectBrand('Polo');
     await expect(page).toHaveURL(/.*brand_products\/Polo.*/);
     await expect(sidebar.categoryPageTitleHeader).toHaveText('Brand - Polo Products');
+  })
+
+  test('TC21: Add review on product', async({page})=>{
+    const productsPage = new AllProducts(page);
+    const productDetails = new ProductDetails(page);
+    const fakeUser = createUserData();
+
+    // Setup the data package formatted exactly like your interface wrapper
+    const reviewData = {
+      name: fakeUser.fullName,
+      email: fakeUser.email,
+      review: "Fantastic build quality! Will definitely order again."
+    };
+
+    await productsPage.navigateTo();
+    await expect(productsPage.allProductsHeader).toBeVisible();
+    await productsPage.firstProductViewBtn.click();
+    
+    // Validate state
+    await expect(productDetails.writeYourReviewTitle).toBeVisible();
+
+    
+    await productDetails.submitReview(reviewData);
+
+    // Verify confirmation message status block
+    const successAlert = page.locator('.alert-success span');
+    await expect(successAlert).toBeVisible();
+    await expect(successAlert).toHaveText('Thank you for your review.');
+
   })
 });

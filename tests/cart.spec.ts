@@ -7,9 +7,6 @@ import { LoginUser } from "../pages/loginUser";
 import { createUserData } from "../utils/dataFactory";
 
 test.describe("Cart & Subscription (TC 12-13)", () => {
-
-  
-
   test.beforeEach(async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     expect(page).toHaveTitle(/Automation Exercise/);

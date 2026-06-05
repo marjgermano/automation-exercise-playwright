@@ -9,6 +9,12 @@ export interface ProductDetailsData {
   brand: string;
 }
 
+export interface ReviewFormData {
+  name: string;
+  email: string;
+  review: string
+}
+
 export class ProductDetails {
   constructor(private page: Page) {}
 
@@ -53,6 +59,26 @@ export class ProductDetails {
     return this.page.locator('button:has-text("Add to cart")');
   }
 
+  get writeYourReviewTitle(){
+    return this.page.getByRole('link', { name: 'Write Your Review' });
+  }
+
+  get nameInput(){
+    return this.page.locator("#name")
+  }
+
+  get emailInput(){
+    return this.page.locator("#email")
+  }
+
+  get reviewTextBox(){
+    return this.page.locator("#review")
+  }
+
+  get submitBtn(){
+    return this.page.locator("#button-review")
+  }
+
   async verifyProductDetailsVisible() {
     // TC8 requires verifying that these specific details are displayed
     await expect(this.productName).toBeVisible();
@@ -66,5 +92,13 @@ export class ProductDetails {
   async setQuantityAndAddToCart(quantity: string) {
     await this.quantityInput.fill(quantity);
     await this.addToCartBtn.click();
+   
+  }
+
+  async submitReview(data:ReviewFormData){
+await this.nameInput.fill(data.name)
+await this.emailInput.fill(data.email)
+await this.reviewTextBox.fill(data.review)
+ await this.submitBtn.click()
   }
 }
