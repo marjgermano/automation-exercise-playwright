@@ -11,27 +11,32 @@ on:
 
 jobs:
   test:
-    # 🟢 Optimize the runner timeout to safeguard server runtime credits
-    timeout-minutes: 20
+    # 🟢 Bumped to 45 mins to ensure 81 sequential tests can finish without getting cut off
+    timeout-minutes: 45
     runs-on: ubuntu-latest
+
+    # 🟢 SILENCE DOTENVX LOG SPAM GLOBALLY
+    env:
+      DOTENV_QUIET: "true"
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        
+
       - name: Run Playwright tests
         run: npx playwright test
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-          
+
       # 🟢 UPLOAD TEST EVIDENCE (HTML Report + Traces/Videos on failure)
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
