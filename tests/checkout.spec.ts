@@ -241,7 +241,5 @@ test.describe("Checkout & Order (TC14-16)", () => {
     await page.getByText("Delete Account").click();
     await checkOutPage.verifyAccountDeleted();
     await checkOutPage.continueBtn.click();
-    
   });
-
 });
