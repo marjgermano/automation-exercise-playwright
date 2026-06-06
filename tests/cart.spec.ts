@@ -84,4 +84,26 @@ test.describe("Cart & Subscription (TC 12-13)", () => {
     await expect(cartPage.cartRows).toHaveCount(1);
 
   })
+
+  test("TC22: Add to cart from recommended items", async({page})=>{
+    const productsPage = new AllProducts(page);
+    const cartPage = new Cart(page);
+
+    
+    await productsPage.footer.scrollIntoViewIfNeeded();
+    await expect(productsPage.recommendedHeader).toBeVisible();
+
+  
+    const productText = await productsPage.activeRecommendedProductNames.first().textContent();
+    await productsPage.firstActiveRecommendedAddToCartBtn.click();
+
+    
+    await productsPage.viewCartLink.click();
+
+    
+    await expect(cartPage.cartRows).toHaveCount(1);
+    
+    const finalCartProductName = page.locator('.cart_description h4 a');
+    await expect(finalCartProductName).toHaveText(productText!.trim());
+  })
 });
