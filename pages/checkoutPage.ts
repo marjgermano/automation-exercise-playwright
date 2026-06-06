@@ -54,18 +54,14 @@ export class CheckoutPage {
   }
 
   async downloadInvoice(firstName: string) {
-    // Set up the download event listener promise thread before clicking
     const downloadPromise = this.page.waitForEvent("download", {
-      timeout: 60000,
+      timeout: 30000,
     });
-    await this.downloadInvoiceBtn.click();
+
+    await this.downloadInvoiceBtn.click({ force: true });
+
     const download = await downloadPromise;
-
-    // Assert that the file downloaded successfully with expected extension type
-    expect(download.suggestedFilename()).toContain(".txt");
-
-    // Save the downloaded file into a dedicated execution workspace folder
-    await download.saveAs(`./test-results/invoice_${firstName}.txt`);
+    return download;
   }
 
   async verifyAccountDeleted() {

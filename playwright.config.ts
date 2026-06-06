@@ -1,62 +1,44 @@
 import { defineConfig, devices } from "@playwright/test";
+
+/**
+ * Read environment variables from file.
+ * https://github.com/motdotla/dotenv
+ */
 import dotenv from "dotenv";
 import path from "path";
-
-// Load environment variables from your local .env file
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
-// Local Isolated Browser Path Guard
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ */
 if (!process.env.CI) {
   process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
 }
 
 export default defineConfig({
   testDir: "./tests",
-
-  /* 🟢 ENTERPRISE TIMEOUT SAFETY MATRICES */
-  timeout: 60 * 1000, // 60s total execution limit per test case
-  expect: {
-    timeout: 10 * 1000, // 10s timeout for individual assertions
-  },
-
-  /* Run tests inside files sequentially to prevent data collisions on the sandbox server */
-  fullyParallel: false, // Changed to false since we are using 1 worker to ensure order
-
-  /* Fail the build on CI if you accidentally left a focused test (test.only) active */
+  /* Run tests in files in parallel */
+  fullyParallel: true,
+  /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-
-  /* 🟢 SMART RETRY MECHANISMS */
-  retries: process.env.CI ? 2 : 1,
-
-  /* Explicitly forces exactly 1 worker everywhere (Local and GitHub CI) for maximum stability */
-  workers: 1,
-
-  /* Report structure type output generation targets */
+  /* Retry on CI only */
+  retries: process.env.CI ? 2 : 0,
+  /* Opt out of parallel tests on CI. */
+  workers: process.env.CI ? 1 : 1,
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
-
-  /* Shared settings for all the browser project targets configured below */
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL utilized for relative routing actions like `await page.goto('/')` */
+    /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: "https://automationexercise.com/",
 
-    /* 🟢 ACTION & NAVIGATION LAYER TIME LIMITS */
-    actionTimeout: 15 * 1000, // 15s cap for low-level pointer triggers (clicks, text fills)
-    navigationTimeout: 20 * 1000, // 20s cap for page loading execution states
-
-    /* 🟢 AUTOMATION EVIDENCE GATHERING HARVESTERS */
-    trace: "retain-on-failure", // Generates deep-dive trace zips exclusively for failing tests
-    video: "retain-on-failure", // Records clean MP4 execution videos only on failures
-    screenshot: "only-on-failure", // Captures an immediate viewport picture at failure coordinates
-    testIdAttribute: "data-qa", // Configures page.getByTestId() to natively scan data-qa attributes
-
-    /* 🟢 GLOBAL CHROMIUM/BROWSER INTERACTION CONTROL PARAMETERS */
-    // Moved up here so these anti-flakiness flags apply everywhere cleanly
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+    testIdAttribute: "data-qa",
+    video: "retry-with-video",
     launchOptions: {
-      slowMo: 300, // 300ms action pacing delay helps lagging server connections keep up
-      args: [
-        "--disable-blink-features=AutomationControlled", // Masks automation flags to stop layout rendering glitches
-        "--disable-web-security", // Helps bypass cross-origin sandboxing iframe freezes
-      ],
+      slowMo: 500,
     },
   },
 
@@ -76,5 +58,32 @@ export default defineConfig({
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
     },
+
+    /* Test against mobile viewports. */
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: { ...devices['Pixel 5'] },
+    // },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 12'] },
+    // },
+
+    /* Test against branded browsers. */
+    // {
+    //   name: 'Microsoft Edge',
+    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    // },
+    // {
+    //   name: 'Google Chrome',
+    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    // },
   ],
+
+  /* Run your local dev server before starting the tests */
+  // webServer: {
+  //   command: 'npm run start',
+  //   url: 'http://localhost:3000',
+  //   reuseExistingServer: !process.env.CI,
+  // },
 });
