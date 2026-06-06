@@ -37,6 +37,6 @@
 | **Product Catalog**     | TC-21 | Add review on product                        | 🟢 Completed | `tests/product.spec.ts`      |
 | **Cart & Sub**          | TC-22 | Add to cart from Recommended items           | 🟢 Completed | `tests/cart.spec.ts`         |
 | **Checkout & Order**    | TC-23 | Verify address details in checkout page      | 🟢 Completed | `tests/checkout.spec.ts`     |
-|                         | TC-24 | Download Invoice after purchase order        | ⚪ Pending   | `tests/checkout.spec.ts`     |
+|                         | TC-24 | Download Invoice after purchase order        | 🟢 Completed | `tests/checkout.spec.ts`     |
 | **UI & Navigation**     | TC-25 | Verify Scroll Up using 'Arrow' button        | ⚪ Pending   | `tests/navigation.spec.ts`   |
 |                         | TC-26 | Verify Scroll Up without 'Arrow' button      | ⚪ Pending   | `tests/navigation.spec.ts`   |
