@@ -204,6 +204,9 @@ test.describe("Checkout & Order (TC14-16)", () => {
   });
 
   test("TC24: Download Invoice after purchase order", async ({ page }) => {
+    // 🟢 FIX: Allocate a 120-second execution budget to handle slow WebKit speeds paired with slowMo
+    test.setTimeout(120000);
+
     const registerUser = new RegisterUser(page);
     const data = createUserData();
     const productsPage = new AllProducts(page);
