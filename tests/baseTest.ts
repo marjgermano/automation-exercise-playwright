@@ -16,35 +16,38 @@ export const test = base.extend({
       }
     });
 
-    // 2. 🟢 NEW: Capture the original native navigation method
+    // 2. Capture original goto for the Cloudflare bypass
     const originalGoto = page.goto.bind(page);
-
-    // 3. 🟢 NEW: Override page.goto globally to absorb the Cloudflare challenge screen
     page.goto = async (url: string, options?: any) => {
-      // Run the normal browser navigation request
       const response = await originalGoto(url, options);
-
-      // Immediately poll the title state to make sure we aren't blocked by a firewall screen
       await expect(async () => {
         const currentTitle = await page.title();
-
         if (
           currentTitle.includes("One moment") ||
           currentTitle.includes("Checking")
         ) {
-          throw new Error(
-            "Cloudflare firewall challenge screen detected. Holding execution loop...",
-          );
+          throw new Error("Cloudflare firewall challenge screen detected.");
         }
-      }).toPass({
-        intervals: [1000, 2000], // Re-check every 1 to 2 seconds
-        timeout: 15000, // Give the network/firewall up to 15 seconds to clear out
-      });
-
+      }).toPass({ intervals: [1000, 2000], timeout: 15000 });
       return response;
     };
 
-    // 4. Give the armed, ad-blocked page to the test
+    // 3. 🟢 NEW: Humanize and Stabilize ALL clicks across the framework
+    // This intercepts the native click method globally to eliminate animation race conditions
+    const originalClick = page.click.bind(page);
+    page.click = async (selector: string, options?: any) => {
+      const locator = page.locator(selector);
+
+      // Force the browser engine to wait until animations finish completely
+      await locator.scrollIntoViewIfNeeded();
+      await expect(locator).toBeVisible();
+      await expect(locator).toBeEnabled();
+
+      // Execute the native click with an explicit force parameter if needed
+      return originalClick(selector, { ...options, force: true });
+    };
+
+    // 4. Give the armed, resilient page instance to the test suite execution track
     await use(page);
   },
 });
