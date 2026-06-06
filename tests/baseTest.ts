@@ -16,25 +16,32 @@ export const test = base.extend({
       }
     });
 
-    // 2. Capture original goto for the Cloudflare firewall bypass
+    // 2. Capture original goto for the Cloudflare firewall & blank page bypass
     const originalGoto = page.goto.bind(page);
     page.goto = async (url: string, options?: any) => {
-      const response = await originalGoto(url, options);
+      // Use domcontentloaded to bypass slow-hanging backend scripts on remote runners
+      const response = await originalGoto(url, {
+        waitUntil: "domcontentloaded",
+        ...options,
+      });
 
-      // Polling loop to wait out the security challenge page non-destructively
+      // Polling loop to wait out security challenges or empty document traces non-destructively
       await expect(async () => {
         const currentTitle = await page.title();
+
+        // 🟢 FIX: Catch empty string titles ("") alongside Cloudflare screening text
         if (
+          !currentTitle ||
           currentTitle.includes("One moment") ||
           currentTitle.includes("Checking")
         ) {
           throw new Error(
-            "Cloudflare firewall challenge screen detected. Polling...",
+            "Page state unready or blocked by firewall screen. Polling browser context...",
           );
         }
       }).toPass({
-        intervals: [1000, 2000],
-        timeout: 15000,
+        intervals: [1500, 2000], // Paced intervals to allow DOM painting
+        timeout: 15000, // Maximum execution buffer threshold
       });
 
       return response;

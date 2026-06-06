@@ -25,11 +25,13 @@ test.describe("Checkout & Order (TC14-16)", () => {
 
     // 4. Add products to cart
     await productsPage.addProductToCartByIndex(0);
-    await productsPage.continueShoppingBtn.click();
+    // 🟢 FIX: Use our resilient animation-safe page method
+    await productsPage.clickContinueShopping();
     await productsPage.addProductToCartByIndex(1);
 
     // 5. Click 'Cart' button
-    await productsPage.viewCartLink.click();
+    // 🟢 FIX: Use our resilient animation-safe page method
+    await productsPage.clickViewCart();
 
     // 6. Verify that cart page is displayed
     await expect(cartPage.cartRows).toHaveCount(2);
@@ -40,6 +42,11 @@ test.describe("Checkout & Order (TC14-16)", () => {
     await cartPage.clickProceedToCheckout();
 
     // 8. Click 'Register / Login' button
+    // 🟢 FIX: Ensure the link has fully loaded visually before attempting interaction
+    await cartPage.registerLoginModalLink.waitFor({
+      state: "visible",
+      timeout: 5000,
+    });
     await cartPage.registerLoginModalLink.click();
 
     // 9-10. Fill all details in Signup and create account -> Verify 'ACCOUNT CREATED!'
@@ -80,7 +87,10 @@ test.describe("Checkout & Order (TC14-16)", () => {
     await page.getByRole("link", { name: "Delete Account" }).click();
 
     // 20. Verify 'ACCOUNT DELETED!' and click 'Continue' button
-    await expect(page.getByText(/account deleted/i)).toBeVisible();
+    // 🟢 FIX: Standardized string validation text matching
+    await expect(
+      page.getByRole("heading", { name: /account deleted/i }),
+    ).toBeVisible();
     await registerUser.continueBtn.click();
   });
 

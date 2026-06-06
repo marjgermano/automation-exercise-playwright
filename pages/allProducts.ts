@@ -57,9 +57,14 @@ export class AllProducts {
       .first();
   }
 
-  // 🟢 CLEAN CORRECTION: Returns a clean locator pointer instead of an unresolved promise
+  // 🟢 CLEAN CORRECTION: Returns the singular first active item
   get recommendedProductName() {
     return this.page.locator(".recommended_items .item.active p").first();
+  }
+
+  // 🟢 CRITICAL FIX: Added to satisfy `productsPage.activeRecommendedProductNames.first()` on line 97
+  get activeRecommendedProductNames() {
+    return this.page.locator(".recommended_items .item.active p");
   }
 
   get finalCartProductName() {
