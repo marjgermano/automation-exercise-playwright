@@ -234,7 +234,10 @@ test.describe("Checkout & Order (TC14-16)", () => {
     await loginUser.login(data.email, data.password);
     await expect(page.getByText(`Logged in as ${data.fullName}`)).toBeVisible();
     await productsPage.addProductToCartByIndex(1);
-    await productsPage.continueShoppingBtn.click();
+
+    // 🟢 FIX: Use our resilient animation-safe page method instead of the raw locator click
+    await productsPage.clickContinueShopping();
+
     await cartPage.navigateTo();
     await expect(cartPage.cartRows).toHaveCount(1);
     await cartPage.clickProceedToCheckout();
@@ -249,10 +252,55 @@ test.describe("Checkout & Order (TC14-16)", () => {
     );
     await checkOutPage.verifyOrderPlaced();
     await checkOutPage.downloadInvoice(data.firstName);
-    await checkOutPage.continueBtn.click();
+
+    // 🟢 FIX: Force the click to punch straight through the headless WebKit background stream freeze
+    await checkOutPage.continueBtn.click({ force: true });
 
     await page.getByText("Delete Account").click();
     await checkOutPage.verifyAccountDeleted();
     await checkOutPage.continueBtn.click();
   });
+
+  // test("TC24: Download Invoice after purchase order", async ({ page }) => {
+  //   // 🟢 FIX: Allocate a 120-second execution budget to handle slow WebKit speeds paired with slowMo
+  //   test.setTimeout(120000);
+
+  //   const registerUser = new RegisterUser(page);
+  //   const data = createUserData();
+  //   const productsPage = new AllProducts(page);
+  //   const cartPage = new Cart(page);
+  //   const checkOutPage = new CheckoutPage(page);
+  //   const paymentPage = new PaymentPage(page);
+  //   const loginUser = new LoginUser(page);
+
+  //   await page.getByText("Signup / Login").click();
+  //   await registerUser.fullRegistration(data);
+  //   await expect(page.getByText(/account created/i)).toBeVisible();
+  //   await registerUser.continueBtn.click();
+
+  //   await page.getByText("Logout").click();
+  //   await loginUser.login(data.email, data.password);
+  //   await expect(page.getByText(`Logged in as ${data.fullName}`)).toBeVisible();
+  //   await productsPage.addProductToCartByIndex(1);
+  //   await productsPage.continueShoppingBtn.click();
+  //   await cartPage.navigateTo();
+  //   await expect(cartPage.cartRows).toHaveCount(1);
+  //   await cartPage.clickProceedToCheckout();
+  //   await checkOutPage.verifyDeliveryName(data.firstName);
+  //   await checkOutPage.enterCommentAndPlaceOrder("drop off, thanks");
+  //   await paymentPage.fillPaymentDetailsAndConfirm(
+  //     data.fullName,
+  //     "4111222233334444",
+  //     "123",
+  //     "12",
+  //     "2030",
+  //   );
+  //   await checkOutPage.verifyOrderPlaced();
+  //   await checkOutPage.downloadInvoice(data.firstName);
+  //   await checkOutPage.continueBtn.click();
+
+  //   await page.getByText("Delete Account").click();
+  //   await checkOutPage.verifyAccountDeleted();
+  //   await checkOutPage.continueBtn.click();
+  // });
 });
