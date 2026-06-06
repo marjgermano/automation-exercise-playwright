@@ -161,4 +161,45 @@ test.describe("Checkout & Order (TC14-16)", () => {
     // 20. Verify 'ACCOUNT DELETED!' and click 'Continue' button
     await expect(page.getByText(/account deleted/i)).toBeVisible();
   });
+
+  test("TC23: Verify address details in checkout page", async ({ page }) => {
+    const registerUser = new RegisterUser(page);
+    const data = createUserData();
+    const productsPage = new AllProducts(page);
+    const cartPage = new Cart(page);
+    const checkOutPage = new CheckoutPage(page);
+    const paymentPage = new PaymentPage(page);
+    const loginUser = new LoginUser(page);
+
+    await page.getByText("Signup / Login").click();
+    await registerUser.fullRegistration(data);
+    await expect(page.getByText(/account created/i)).toBeVisible();
+    await registerUser.continueBtn.click();
+
+    await page.getByText("Logout").click();
+    await loginUser.login(data.email, data.password);
+    await expect(page.getByText(`Logged in as ${data.fullName}`)).toBeVisible();
+    await productsPage.addProductToCartByIndex(1);
+    await productsPage.continueShoppingBtn.click();
+    await cartPage.navigateTo();
+    await expect(cartPage.cartRows).toHaveCount(1);
+    await cartPage.clickProceedToCheckout();
+    await checkOutPage.verifyDeliveryName(data.firstName);
+    await checkOutPage.enterCommentAndPlaceOrder("drop off, thanks");
+    await paymentPage.fillPaymentDetailsAndConfirm(
+      data.fullName,
+      "4111222233334444",
+      "123",
+      "12",
+      "2030",
+    );
+
+    await expect(paymentPage.successAlert).toBeVisible();
+
+    // 19. Click 'Delete Account' button
+    await page.getByRole("link", { name: "Delete Account" }).click();
+
+    // 20. Verify 'ACCOUNT DELETED!' and click 'Continue' button
+    await expect(page.getByText(/account deleted/i)).toBeVisible();
+  });
 });
