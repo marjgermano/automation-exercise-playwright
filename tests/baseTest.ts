@@ -19,7 +19,11 @@ export const test = base.extend({
     // 2. Capture original goto for the Cloudflare firewall & blank page bypass
     const originalGoto = page.goto.bind(page);
     page.goto = async (url: string, options?: any) => {
-      // Use domcontentloaded to bypass slow-hanging backend scripts on remote runners
+      // Ignore interceptor logic entirely for download actions or data URIs
+      if (url.startsWith("data:") || url.includes("download")) {
+        return await originalGoto(url, options);
+      }
+
       const response = await originalGoto(url, {
         waitUntil: "domcontentloaded",
         ...options,
@@ -29,7 +33,6 @@ export const test = base.extend({
       await expect(async () => {
         const currentTitle = await page.title();
 
-        // 🟢 FIX: Catch empty string titles ("") alongside Cloudflare screening text
         if (
           !currentTitle ||
           currentTitle.includes("One moment") ||
@@ -40,14 +43,13 @@ export const test = base.extend({
           );
         }
       }).toPass({
-        intervals: [1500, 2000], // Paced intervals to allow DOM painting
-        timeout: 15000, // Maximum execution buffer threshold
+        intervals: [1500, 2000],
+        timeout: 15000,
       });
 
       return response;
     };
 
-    // 3. Hand the clean, ad-blocked page back to the suite runner execution queue
     await use(page);
   },
 });

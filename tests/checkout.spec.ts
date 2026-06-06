@@ -108,7 +108,7 @@ test.describe("Checkout & Order (TC14-16)", () => {
     await registerUser.continueBtn.click();
     await expect(page.getByText(`Logged in as ${data.fullName}`)).toBeVisible();
     await productsPage.addProductToCartByIndex(1);
-    await productsPage.continueShoppingBtn.click();
+    await productsPage.clickContinueShopping();
     await cartPage.navigateTo();
     await expect(cartPage.cartRows).toHaveCount(1);
     await cartPage.clickProceedToCheckout();
@@ -190,7 +190,7 @@ test.describe("Checkout & Order (TC14-16)", () => {
     await loginUser.login(data.email, data.password);
     await expect(page.getByText(`Logged in as ${data.fullName}`)).toBeVisible();
     await productsPage.addProductToCartByIndex(1);
-    await productsPage.continueShoppingBtn.click();
+    await productsPage.clickContinueShopping();
     await cartPage.navigateTo();
     await expect(cartPage.cartRows).toHaveCount(1);
     await cartPage.clickProceedToCheckout();

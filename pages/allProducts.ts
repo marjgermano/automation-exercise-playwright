@@ -86,6 +86,10 @@ export class AllProducts {
   async addProductToCartByIndex(index: number) {
     const productCard = this.page.locator(".single-products").nth(index);
 
+    // 🟢 FIX: Ensure the element is painted, visible, and stable in the viewport before hovering
+    await productCard.waitFor({ state: "visible", timeout: 10000 });
+    await productCard.scrollIntoViewIfNeeded();
+
     await productCard.hover();
     await productCard.locator(".product-overlay .add-to-cart").click();
   }

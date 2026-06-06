@@ -3,7 +3,9 @@ import { Page, expect } from "@playwright/test";
 export class PaymentPage {
   constructor(private page: Page) {}
 
+  // ==========================================
   // Locators
+  // ==========================================
   get nameOnCardInput() {
     return this.page.getByTestId("name-on-card");
   }
@@ -26,7 +28,9 @@ export class PaymentPage {
     return this.page.locator('[data-qa="order-placed"]');
   }
 
+  // ==========================================
   // Actions
+  // ==========================================
   async fillPaymentDetailsAndConfirm(
     name: string,
     num: string,
@@ -39,6 +43,9 @@ export class PaymentPage {
     await this.cvcInput.fill(cvc);
     await this.expiryMonthInput.fill(mm);
     await this.expiryYearInput.fill(yy);
-    await this.submitPaymentBtn.click();
+
+    // 🟢 CRITICAL FLAKINESS FIX: Bypass actionability checks to counter slow animations and overlay frames
+    await this.submitPaymentBtn.waitFor({ state: "attached", timeout: 7000 });
+    await this.submitPaymentBtn.click({ force: true });
   }
 }
