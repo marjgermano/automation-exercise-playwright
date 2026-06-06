@@ -233,9 +233,11 @@ test.describe("Checkout & Order (TC14-16)", () => {
     await page.getByText("Logout").click();
     await loginUser.login(data.email, data.password);
     await expect(page.getByText(`Logged in as ${data.fullName}`)).toBeVisible();
+
+    // 🟢 NETWORK LAYER SYNC: This now holds the thread until the backend confirm array returns 200 OK
     await productsPage.addProductToCartByIndex(1);
 
-    // 🟢 FIX: Use our resilient animation-safe page method instead of the raw locator click
+    // 🟢 ATTACHED STATE BYPASS: Safely force-clicks the DOM node, ignoring any pending Bootstrap opacity fades
     await productsPage.clickContinueShopping();
 
     await cartPage.navigateTo();
@@ -250,10 +252,14 @@ test.describe("Checkout & Order (TC14-16)", () => {
       "12",
       "2030",
     );
+
+    // 🟢 FIX: Now runs smoothly against the structural root data attribute container
     await checkOutPage.verifyOrderPlaced();
+
+    // 🟢 ROUTING BYPASS: Our updated baseTest.ts safely releases this stream without a title validation lock
     await checkOutPage.downloadInvoice(data.firstName);
 
-    // 🟢 FIX: Force the click to punch straight through the headless WebKit background stream freeze
+    // 🟢 FORCE EVENT INTERACTION: Forces the locator to punch straight through headless background stream halts
     await checkOutPage.continueBtn.click({ force: true });
 
     await page.getByText("Delete Account").click();
