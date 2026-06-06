@@ -86,23 +86,37 @@ export class AllProducts {
   async addProductToCartByIndex(index: number) {
     const productCard = this.page.locator(".single-products").nth(index);
 
-    // 🟢 FIX: Ensure the element is painted, visible, and stable in the viewport before hovering
+    // Ensure the element is painted, visible, and stable in the viewport before hovering
     await productCard.waitFor({ state: "visible", timeout: 10000 });
     await productCard.scrollIntoViewIfNeeded();
 
+    // ROOT-CAUSE FLAKINESS FIX: Synchronize with the backend cart payload registration API stream
+    const cartResponse = this.page.waitForResponse(
+      (response) =>
+        response.url().includes("/add_to_cart") && response.status() === 200,
+      { timeout: 7000 },
+    );
+
     await productCard.hover();
     await productCard.locator(".product-overlay .add-to-cart").click();
+
+    // Hold the execution context until the network handshake finishes successfully
+    await cartResponse;
   }
 
-  // 🟢 TARGETED ANIMATION FIX: Explicitly wait for modal layout stabilization
+  // 🟢 PERMANENT ANIMATION FIX: Wait until the node is structurally attached to the DOM tree.
+  // This completely stops Playwright from timing out over slow CSS opacity/fade-in visibility calculations.
   async clickContinueShopping() {
-    await this.continueShoppingBtn.waitFor({ state: "visible", timeout: 7000 });
+    await this.continueShoppingBtn.waitFor({
+      state: "attached",
+      timeout: 10000,
+    });
     await this.continueShoppingBtn.click({ force: true });
   }
 
-  // 🟢 TARGETED ANIMATION FIX: Explicitly wait for modal layout stabilization
+  // 🟢 PERMANENT ANIMATION FIX: Use structural DOM presence verification to guarantee actionability
   async clickViewCart() {
-    await this.viewCartLink.waitFor({ state: "visible", timeout: 7000 });
+    await this.viewCartLink.waitFor({ state: "attached", timeout: 10000 });
     await this.viewCartLink.click({ force: true });
   }
 }

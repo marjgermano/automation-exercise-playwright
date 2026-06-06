@@ -12,10 +12,12 @@ if (!process.env.CI) {
 export default defineConfig({
   testDir: "./tests",
 
-  /* 🟢 FIX 1: INCREASE TIMEOUTS TO ACCOMMODATE E2E FLOWS WORKED BY SLOWMO */
-  timeout: 60 * 1000, // 60 seconds total execution budget per test case
+  /* 🟢 CRITICAL TIMEOUT ALIGNMENT FIX: 
+     Because slowMo adds 500ms to EVERY step, large multi-page scenarios (like checkout loops) 
+     need a higher global execution ceiling to prevent runner-enforced timeouts on slow nodes. */
+  timeout: 120 * 1000, // Increased to 120 seconds total execution budget per test case
   expect: {
-    timeout: 10 * 1000, // 10 seconds maximum buffer for explicit assertions
+    timeout: 15 * 1000, // Raised to 15 seconds maximum buffer for explicit assertions
   },
 
   /* 🟢 FIX 2: COORDINATE SEQUENTIAL QUEUE ALIGNMENT */
