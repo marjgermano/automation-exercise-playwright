@@ -19,7 +19,6 @@ export default defineConfig({
   },
 
   /* 🟢 FIX 2: COORDINATE SEQUENTIAL QUEUE ALIGNMENT */
-  // Changed to false since workers: 1 is locked; this forces tests to run cleanly in a queue
   fullyParallel: false,
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -45,13 +44,9 @@ export default defineConfig({
     testIdAttribute: "data-qa",
     video: "retry-with-video",
 
-    /* 🟢 FIX 3: INJECT CORE SECURITY BYPASS FLAGS */
+    /* 🟢 GLOBAL LAUNCH SETTINGS (Safe for all browsers) */
     launchOptions: {
       slowMo: 500, // Paces actions by 500ms to preserve remote server sync state
-      args: [
-        "--disable-blink-features=AutomationControlled", // Prevents automated element rejection blocks
-        "--disable-web-security", // Overrides rigid cross-origin script drops
-      ],
     },
   },
 
@@ -59,17 +54,32 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        /* 🟢 CHROMIUM SPECIFIC FIX: Keep special anti-bot evasion arguments isolated here */
+        launchOptions: {
+          args: [
+            "--disable-blink-features=AutomationControlled", // Prevents automated element rejection blocks
+            "--disable-web-security", // Overrides rigid cross-origin script drops
+          ],
+        },
+      },
     },
 
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Firefox"],
+        /* Firefox will launch cleanly using standard settings without crashing */
+      },
     },
 
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: {
+        ...devices["Desktop Safari"],
+        /* WebKit will launch cleanly using standard settings without crashing */
+      },
     },
   ],
 });
