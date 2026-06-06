@@ -23,6 +23,7 @@ export class AllProducts {
   }
 
   get firstProductViewBtn() {
+    // Selects the first "View Product" link in the list
     return this.page.locator(".choose > .nav > li > a").first();
   }
 
@@ -35,11 +36,11 @@ export class AllProducts {
   }
 
   get continueShoppingBtn() {
-    return this.page.getByRole('button', { name: 'Continue Shopping' });
+    return this.page.locator('button:has-text("Continue Shopping")');
   }
 
   get viewCartLink() {
-    return this.page.getByRole('link', { name: 'View Cart' });
+    return this.page.locator('u:has-text("View Cart")');
   }
 
   get footer() {
@@ -47,22 +48,29 @@ export class AllProducts {
   }
 
   get recommendedHeader() {
-    return this.page.getByRole('heading', { name: 'RECOMMENDED ITEMS' });
+    return this.page.getByRole("heading", { name: "RECOMMENDED ITEMS" });
   }
 
   get firstActiveRecommendedAddToCartBtn() {
-    return this.page.locator('.recommended_items .item.active .add-to-cart').first();
+    return this.page
+      .locator(".recommended_items .item.active .add-to-cart")
+      .first();
   }
 
-  get activeRecommendedProductNames() {
-    return this.page.locator('.recommended_items .item.active p');
+  // 🟢 CLEAN CORRECTION: Returns a clean locator pointer instead of an unresolved promise
+  get recommendedProductName() {
+    return this.page.locator(".recommended_items .item.active p").first();
+  }
+
+  get finalCartProductName() {
+    return this.page.locator(".cart_description h4 a");
   }
 
   // ==========================================
   // Actions
   // ==========================================
   async navigateTo() {
-    await this.page.goto("/products", { waitUntil: "domcontentloaded" });
+    await this.page.goto("/products");
   }
 
   async searchForProduct(productName: string) {
@@ -72,11 +80,23 @@ export class AllProducts {
 
   async addProductToCartByIndex(index: number) {
     const productCard = this.page.locator(".single-products").nth(index);
+
     await productCard.hover();
     await productCard.locator(".product-overlay .add-to-cart").click();
   }
-}
 
+  // 🟢 TARGETED ANIMATION FIX: Explicitly wait for modal layout stabilization
+  async clickContinueShopping() {
+    await this.continueShoppingBtn.waitFor({ state: "visible", timeout: 7000 });
+    await this.continueShoppingBtn.click({ force: true });
+  }
+
+  // 🟢 TARGETED ANIMATION FIX: Explicitly wait for modal layout stabilization
+  async clickViewCart() {
+    await this.viewCartLink.waitFor({ state: "visible", timeout: 7000 });
+    await this.viewCartLink.click({ force: true });
+  }
+}
 
 // import { Page } from "@playwright/test";
 
@@ -140,8 +160,6 @@ export class AllProducts {
 //   get finalCartProductName(){
 //     return this.page.locator('.cart_description h4 a')
 //   }
-
-
 
 //   // Actions
 //   async navigateTo() {
