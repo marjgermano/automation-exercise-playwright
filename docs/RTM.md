@@ -1,13 +1,12 @@
 # Requirement Traceability Matrix (RTM)
 
 **Project:** Automation Exercise  
-**Automation Framework:** Playwright (TypeScript)  
-**Execution Strategy:** Hybrid Testing Architecture (Separated UI/API Pipelines)
+**Automation Framework:** Playwright (TypeScript)
 
 ### Status Legend
 
 - 🟢 **Completed:** Scripted, locally verified, and passing cleanly in CI/CD.
-- ⚪ \*:\*\* Framework structure ready, waiting for execution scripting.
+- ⚪ **Pending:** Framework structure ready, waiting for execution scripting.
 
 ---
 
