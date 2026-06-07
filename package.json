@@ -6,7 +6,8 @@
   "scripts": {
     "setup": "npm install && npx playwright install --with-deps",
     "test": "npx playwright test",
-    "test:ui": "npx playwright test --ui",
+    "test:ui": "npx playwright test --ignore-pattern='tests/api/**'",
+    "test:api": "npx playwright test tests/api",
     "report": "npx playwright show-report",
     "codegen": "npx playwright codegen"
   },
