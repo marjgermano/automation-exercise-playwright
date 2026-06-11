@@ -47,7 +47,7 @@
 
 | Domain Module       | Target ID | Requirement / Endpoint Verification                  | Status | Test Script Path                |
 | :------------------ | :-------- | :--------------------------------------------------- | :----: | :------------------------------ |
-| **Catalog**         | API-1     | GET: Retrieve all products list                      |   ⚪   | `tests/api/products.spec.ts`    |
+| **Catalog**         | API-1     | GET: Retrieve all products list                      |   🟢   | `tests/api/products.spec.ts`    |
 |                     | API-2     | POST: Verify server rejects POST to products list    |   ⚪   | `tests/api/products.spec.ts`    |
 |                     | API-3     | POST: Search product with query string parameters    |   ⚪   | `tests/api/products.spec.ts`    |
 |                     | API-4     | POST: Verify search response with missing parameters |   ⚪   | `tests/api/products.spec.ts`    |
